@@ -14,6 +14,6 @@ describe('primitive-interpolation only allows primitive object inside string int
         const whitelists: string[] = ['CustomClass'];
         const result = helper({ filepath: path, rule, whitelists });
         // todo
-        console.log(result.output);
+        expect(result.failures.length).toBe(7);
     });
 });
