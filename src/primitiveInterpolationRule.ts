@@ -48,20 +48,56 @@ interface IWalkerOptions extends Lint.IOptions {
     ruleArguments: string[];
 }
 
+const BLACKLISTED: Set<string> = new Set([
+    '__object',
+    'Array',
+    'Date',
+    'Promise',
+    'Set',
+    'Map',
+]);
+
+function hasCallSignatures(type: ts.Type): boolean {
+    const callSignatures = type.getCallSignatures();
+    if (typeof callSignatures === 'undefined') { return false; }
+    return callSignatures.length > 0;
+}
+
+function isWhiteListed(type: ts.Type, whitelist: Set<string>): boolean {
+    const symbol = type.getSymbol() || { name: '' };
+    if (whitelist.has(symbol.name)) { return true; }
+    const baseTypes = type.getBaseTypes();
+    if (baseTypes === undefined) { return false; }
+    const [ baseType ] = baseTypes;
+    if (baseType === undefined) { return false; }
+    return isWhiteListed(baseType, whitelist);
+}
+
+function childOfPrimitive(type: ts.Type): boolean {
+    return type.getBaseTypes() === undefined;
+}
+
 function createWalker(options: IWalkerOptions): (ctx: Lint.WalkContext<string[]>, program: ts.Program) => void {
-    const whitelistedSet = new Set(options.ruleArguments || []);
+    const whitelist = new Set(options.ruleArguments || []);
     return function walkFn(ctx: Lint.WalkContext<string[]>, program: ts.Program): void {
         const tc = program.getTypeChecker();
         return ts.forEachChild(ctx.sourceFile, function cb(node: ts.Node): void {
             const grandParent = (node.parent || {}).parent;
             const jmp = () => ts.forEachChild(node, cb);
+            const addFailure = (): void => {
+                const symbol = type.symbol || { name: undefined };
+                ctx.addFailureAtNode(node, `interpolated variable "${node.getFullText()}" must be a primitive value, got ${symbol.name} instead`);
+                return jmp();
+            };
             if (grandParent === undefined) { return jmp(); }
             if (!ts.isTemplateExpression(grandParent)) { return jmp(); }
             const type = tc.getTypeAtLocation(node);
             if (type.symbol === undefined) { return jmp(); }
-            if (whitelistedSet.has(type.symbol.name)) { return jmp(); }
-            ctx.addFailureAtNode(node, `interpolated variable "${node.getFullText()}" must be a primitive value, got ${type.symbol.name} instead`);
-            return jmp();
+            if (isWhiteListed(type, whitelist)) { return jmp(); }
+            if (BLACKLISTED.has(type.symbol.name)) { return addFailure(); }
+            if (hasCallSignatures(type)) { return addFailure(); }
+            if (childOfPrimitive(type)) { return jmp(); }
+            return addFailure();
         });
     };
 }
