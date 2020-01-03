@@ -80,4 +80,8 @@ describe('primitive-interpolation only allows primitive object inside string int
         const result = testFile(15, 'whitelisted', ['BaseWhitelist']);
         expect(result.failures.length).toBe(0);
     });
+    it('accept directEnum', () => {
+        const result = testFile(16, 'directEnum');
+        expect(result.failures.length).toBe(0);
+    });
 });
