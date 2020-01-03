@@ -1,9 +1,53 @@
-# tslint-custom-rules-boilerplate
+# primitive-interpolation
 
-A template for developing a custom TSLint rule, using unit testing.
+String Interpolation, like `${myVariable}` is usually type-unsafe.
 
-Easiest developing cycle would be to change some tests (the `.spec` [file](src/myCustomRule.spec.ts)), change the [rule](src/myCustomRule.ts), and then run `npm test` to check everything is as expected.
+for example when you have some logic that looks like:
+```typescript
+class User {
+  async email(): Promise<string> {
+    return fetchFromSomeAPI();
+  }
+}
 
-Inside the [test file](src/myCustomRule.spec.ts) you have a minimal working example of how to test failures (including position and messages), successes and fixers.
+async function main(): Promise<void> {
+  const user = new User();
+  const message = `hello ${user.email()}, welcome to github`;
+  // >>> `hello [object Promise], welcome to github`;
+  // oof, you forget to await the user.email()
+}
+```
 
-After your rule is ready you can compile it using `npm run build`, and use the results in the `dist` folder.
+Using this linter rule, such logic error, would be captured during linting, with this message:
+```text
+interpolated variable "user.email()" must be a primitive value, got Promise instead.
+```
+
+### Reasoning:
+The idea behind this rules, is that any variable to be interpolated, should be a primitive object
+e.g: `number | boolean | string | enum`
+
+any, other type should first be whitelisted.
+
+### Whitelisting:
+This rules accept an options a list of string.
+the name of type you want to allow.
+for example, if you're okay with doing string interpolation of a Date variable, you can whitelist it by putting in the options:
+```json
+{
+  "rules": {
+    "primitive-interpolation": {
+      "severity": "error",
+      "options": ["Date"]
+    }
+  }
+  // ... other configs.
+}
+```
+
+### Flaw:
+unfortunately, this rules can't capture "any" and "unknown" type.
+
+### Installation:
+TODO  
+clone this repo, compile it, and put it into your `rulesDirectory` maybe?
