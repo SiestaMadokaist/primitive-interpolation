@@ -76,8 +76,13 @@ describe('primitive-interpolation only allows primitive object inside string int
         const result = testFile(15, 'whitelisted');
         validateHasError(result, 'IWhitelist');
     });
-    it('accept whitelisted after being whitelisted', () => {
+    it('accept whitelisted instance after the base class being whitelisted', () => {
+        // this test should start in line 79 or update the readme.
         const result = testFile(15, 'whitelisted', ['BaseWhitelist']);
+        expect(result.failures.length).toBe(0);
+    });
+    it('accept whitelisted instance after its constructor being whitelist', () => {
+        const result = testFile(15, 'whitelisted', ['SecondWhitelist']);
         expect(result.failures.length).toBe(0);
     });
     it('accept directEnum', () => {
@@ -93,7 +98,13 @@ describe('primitive-interpolation only allows primitive object inside string int
      * that moment when the requirement changed to follow the code...
      */
     it('refused whitelisted child constructor even after the base class is whitelisted', () => {
+        // this test should start in line 100 or update the readme.
         const result = testFile(17, 'whitelistedChildClass', ['BaseWhitelist.class']);
+        validateHasError(result, 'SecondWhitelist');
+    });
+    it('accept whitelisted child constructor even after it is whitelisted', () => {
+        // this test should start in line 105 or update the readme.
+        const result = testFile(17, 'whitelistedChildClass', ['SecondWhitelist.class']);
         validateHasError(result, 'SecondWhitelist');
     });
     it('refused whitelisted base constructor before the class is whitelisted', () => {

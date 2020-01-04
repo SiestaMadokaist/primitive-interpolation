@@ -45,8 +45,10 @@ for example, if you're okay with doing string interpolation of a Date variable, 
 }
 ```
 
-### Flaw:
-unfortunately, this rules can't capture "any" and "unknown" type.
+### Shortcoming:
+- unfortunately, this rules can't capture "any" and "unknown" type.
+- for instance-object of a whitelisted object, it'll follow the prototypal-chain. see [here](/src/primitiveInterpolationRule.spec.ts#L79)
+- for constructor of a whitelisted object, you'll need to whitelist them one by one. see [here](/src/primitiveInterpolationRule.spec.ts#L100) and [here](/src/primitiveInterpolationRule.spec.ts#L105)
 
 ### Installation:
 TODO  
