@@ -28,3 +28,4 @@ jobs:
         yarn publish --non-interactive
       env:
         CI: true
+        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
