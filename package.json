@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "",
   "scripts": {
-    "build": "tsc -p tsconfig.bulid.json",
+    "build": "tsc -p tsconfig.build.json",
     "debug": "node --inspect=5858 -r ts-node/register node_modules/.bin/jest",
     "test": "jest"
   },
