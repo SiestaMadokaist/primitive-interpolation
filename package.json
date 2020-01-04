@@ -1,6 +1,6 @@
 {
   "name": "tslint-primitive-interpolation",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "tslint rules to disallow putting non-primitive values inside string interpolation.",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
