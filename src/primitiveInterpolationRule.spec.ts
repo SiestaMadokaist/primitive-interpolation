@@ -105,7 +105,7 @@ describe('primitive-interpolation only allows primitive object inside string int
     it('accept whitelisted child constructor even after it is whitelisted', () => {
         // this test should start in line 105 or update the readme.
         const result = testFile(17, 'whitelistedChildClass', ['SecondWhitelist.class']);
-        validateHasError(result, 'SecondWhitelist');
+        expect(result.failures.length).toBe(0);
     });
     it('refused whitelisted base constructor before the class is whitelisted', () => {
         const result = testFile(18, 'whitelistedBaseClass', ['BaseWhitelist']);
