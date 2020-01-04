@@ -1,5 +1,5 @@
 {
-  "name": "tslint-custom-rules-boilerplate",
+  "name": "tslint-primitive-interpolation",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/eranshabi/tslint-custom-rules-boilerplate.git"
+    "url": "https://github.com/SiestaMadokaist/primitive-interpolation.git"
   },
   "devDependencies": {
     "@types/jest": "^24.0.25",
@@ -17,13 +17,12 @@
     "jest": "^23.1.0",
     "mocha": "^6.2.2",
     "ts-jest": "^22.4.6",
-    "ts-node": "^8.5.4",
-    "typescript": "^2.9.1"
+    "ts-node": "^8.5.4"
   },
   "dependencies": {
-    "bignumber.js": "^9.0.0",
     "tslint": "^5.10.0",
-    "tsutils": "^3.17.1"
+    "tsutils": "^3.17.1",
+    "typescript": "^2.9.1"
   },
   "jest": {
     "moduleFileExtensions": [

@@ -63,14 +63,42 @@ function hasCallSignatures(type: ts.Type): boolean {
     return callSignatures.length > 0;
 }
 
+function isConstructor(type: ts.Type): boolean {
+    const symbol = type.getSymbol();
+    if (symbol === undefined) { return false; }
+    const props = type.getProperties();
+    const [ prototype ] = props.filter((prop) => prop.getName() === 'prototype');
+    if (prototype !== undefined) { return true; }
+    return false;
+}
+
 function isWhiteListed(type: ts.Type, whitelist: Set<string>): boolean {
     const symbol = type.getSymbol() || { name: '' };
-    if (whitelist.has(symbol.name)) { return true; }
+    if (whitelist.has(symbol.name)) {
+        const props = type.getProperties();
+        const [ prototype ] = props.filter((prop) => prop.getName() === 'prototype');
+        if (prototype === undefined) { return true; }
+    }
     const baseTypes = type.getBaseTypes();
     if (baseTypes === undefined) { return false; }
     const [ baseType ] = baseTypes;
     if (baseType === undefined) { return false; }
     return isWhiteListed(baseType, whitelist);
+}
+
+function isWhiteListedConstructor(type: ts.Type, whitelist: Set<string>): boolean {
+    if (!isConstructor(type)) { return false; }
+    const symbol = type.getSymbol() || { name: '' };
+    if (whitelist.has(`${symbol.name}.class`)) {
+        const props = type.getProperties();
+        const [ prototype ] = props.filter((prop) => prop.getName() === 'prototype');
+        if (prototype !== undefined) { return true; }
+    }
+    const baseTypes = type.getBaseTypes();
+    if (baseTypes === undefined) { return false; }
+    const [ baseType ] = baseTypes;
+    if (baseType === undefined) { return false; }
+    return isWhiteListedConstructor(baseType, whitelist);
 }
 
 function childOfPrimitive(type: ts.Type): boolean {
@@ -83,21 +111,25 @@ function createWalker(options: IWalkerOptions): (ctx: Lint.WalkContext<string[]>
         const tc = program.getTypeChecker();
         return ts.forEachChild(ctx.sourceFile, function cb(node: ts.Node): void {
             const grandParent = (node.parent || {}).parent;
-            const jmp = () => ts.forEachChild(node, cb);
-            const addFailure = (): void => {
+            const next = () => ts.forEachChild(node, cb);
+            const fails = (): void => {
                 const symbol = type.symbol || { name: undefined };
                 ctx.addFailureAtNode(node, `interpolated variable "${node.getFullText()}" must be a primitive value, got ${symbol.name} instead`);
-                return jmp();
+                return next();
             };
-            if (grandParent === undefined) { return jmp(); }
-            if (!ts.isTemplateExpression(grandParent)) { return jmp(); }
+            if (grandParent === undefined) { return next(); }
+            if (!ts.isTemplateExpression(grandParent)) { return next(); }
             const type = tc.getTypeAtLocation(node);
-            if (type.symbol === undefined) { return jmp(); }
-            if (isWhiteListed(type, whitelist)) { return jmp(); }
-            if (BLACKLISTED.has(type.symbol.name)) { return addFailure(); }
-            if (hasCallSignatures(type)) { return addFailure(); }
-            if (childOfPrimitive(type)) { return jmp(); }
-            return addFailure();
+            if (type.symbol === undefined) { return next(); }
+            if (isWhiteListed(type, whitelist)) { return next(); }
+            if (isConstructor(type)) {
+                if (isWhiteListedConstructor(type, whitelist)) { return next(); }
+                return fails();
+            }
+            if (BLACKLISTED.has(type.symbol.name)) { return fails(); }
+            if (hasCallSignatures(type)) { return fails(); }
+            if (childOfPrimitive(type)) { return next(); }
+            return fails();
         });
     };
 }
