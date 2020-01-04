@@ -110,7 +110,7 @@ function createWalker(options: IWalkerOptions): (ctx: Lint.WalkContext<string[]>
     return function walkFn(ctx: Lint.WalkContext<string[]>, program: ts.Program): void {
         const tc = program.getTypeChecker();
         return ts.forEachChild(ctx.sourceFile, function cb(node: ts.Node): void {
-            const grandParent = (node.parent || {}).parent;
+            const grandParent = (node.parent || { parent: undefined }).parent;
             const next = () => ts.forEachChild(node, cb);
             const fails = (): void => {
                 const symbol = type.symbol || { name: undefined };
