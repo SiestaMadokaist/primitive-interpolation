@@ -25,5 +25,6 @@ jobs:
         yarn build
         yarn test
         yarn version --pre --patch
+        yarn publish --non-interactive
       env:
         CI: true
