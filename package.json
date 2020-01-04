@@ -1,10 +1,10 @@
 {
   "name": "tslint-primitive-interpolation",
-  "version": "1.0.5",
+  "version": "1.0.8",
   "description": "tslint rules to disallow putting non-primitive values inside string interpolation.",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "staging": "yarn version --pre --patch",
+    "patch": "yarn version --pre --patch",
     "debug": "node --inspect=5858 -r ts-node/register node_modules/.bin/jest",
     "test": "jest"
   },

@@ -3881,6 +3881,15 @@ tslib@^1.8.0, tslib@^1.8.1:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
   integrity sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
 
+tslint-primitive-interpolation@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/tslint-primitive-interpolation/-/tslint-primitive-interpolation-1.0.8.tgz#220979cc1ac6bbf1b882c26ab06f613adf3d1a10"
+  integrity sha512-QQ3lRCLAamxcsue3DuC44pLQfhPzHfqDPp0bIO+JYoQTk9yjSz09jbu9TunuJEzil4d0kAZIOReB9wkrHzDjow==
+  dependencies:
+    tslint "^5.10.0"
+    tsutils "^3.17.1"
+    typescript "^2.9.1"
+
 tslint@^5.10.0:
   version "5.20.1"
   resolved "https://registry.yarnpkg.com/tslint/-/tslint-5.20.1.tgz#e401e8aeda0152bc44dd07e614034f3f80c67b7d"
