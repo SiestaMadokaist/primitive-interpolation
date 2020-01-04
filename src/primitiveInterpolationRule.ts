@@ -19,7 +19,7 @@ export class Rule extends Lint.Rules.TypedRule {
                 items: { type: 'string' },
             },
         },
-        optionExamples: [true, [true, 'BigNumber']],
+        optionExamples: [['Date']],
         rationale: Lint.Utils.dedent`
             String Interpolation, like \`\${myVariable}\` is usually type-unsafe.
             Since every kind of type would be allowed inside the string interpolation.
