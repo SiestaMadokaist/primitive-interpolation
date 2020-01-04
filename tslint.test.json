@@ -1,0 +1,103 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+      "tslint:recommended"
+  ],
+  "jsRules": {
+  },
+  "rules": {
+      "primitive-interpolation": {
+          "severity": "error",
+          "options": [
+              "BigNumber",
+              "Error"
+          ]
+      },
+      "no-reference": false,
+      "deprecation": true,
+      "no-promise-as-boolean": true,
+      "interface-name": false,
+      "no-namespace": false,
+      "no-floating-promises": true,
+      "eofline": {
+          "severity": "warning"
+      },
+      "no-console": true,
+      "ordered-imports": {
+          "severity": "none"
+      },
+      "variable-name": false,
+      "quotemark": {
+          "severity": "warning",
+          "options": ["single"]
+      },
+      "max-line-length":false,
+      "typedef": [
+          true,
+          "call-signature",
+          "parameter",
+          "member-variable-declaration",
+          "property-declaration"
+      ],
+      "whitespace": {
+          "severity": "warning",
+          "options": [
+              "check-branch",
+              "check-decl",
+              "check-module",
+              "check-operator",
+              "check-preblock",
+              "check-rest-spread",
+              "check-separator",
+              "check-type",
+              "check-type-operator",
+              "check-typecast"
+          ]
+      },
+      "one-line": {
+          "severity": "warning",
+          "options": [
+              "check-catch",
+              "check-else",
+              "check-finally",
+              "check-open-brace",
+              "check-whitespace"
+          ]
+      },
+      "member-access": [true, "no-public"],
+      "no-empty": [false],
+      "max-classes-per-file": [true, 4],
+      "semicolon": [true, "always"],
+      "member-ordering": {
+          "severity": "none",
+          "options": {
+              "alphabetize": true,
+              "order": [
+                  "private-static-field",
+                  "protected-static-field",
+                  "public-static-field",
+
+                  "private-instance-field",
+                  "protected-instance-field",
+                  "public-instance-field",
+
+                  "public-constructor",
+                  "private-constructor",
+
+                  "public-instance-method",
+                  "protected-instance-method",
+                  "private-instance-method"
+              ]
+          }
+      }
+  },
+  "linterOptions": {
+      "exclude": [
+          "*.test.ts",
+          "rules/**/**"
+      ]
+  },
+  "rulesDirectory": [
+      "./dist"
+  ]
+}

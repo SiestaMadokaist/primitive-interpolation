@@ -21,11 +21,15 @@ export class CustomClass {
   }
 
   customFunction(): string {
-    return 'hello';
+    return `${this.privateFunction()}`;
   }
 
   stringify(item: string): string {
     return item;
+  }
+
+  private privateFunction(): string {
+    return 'yes';
   }
 
 }
