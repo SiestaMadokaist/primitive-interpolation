@@ -51,5 +51,8 @@ for example, if you're okay with doing string interpolation of a Date variable, 
 - for constructor of a whitelisted object, you'll need to whitelist them one by one. see [here](/src/primitiveInterpolationRule.spec.ts#L100) and [here](/src/primitiveInterpolationRule.spec.ts#L105)
 
 ### Installation:
-TODO  
-clone this repo, compile it, and put it into your `rulesDirectory` maybe?
+```shell
+npm install tslint-primitive-interpolation --dev
+# or if you're using yarn
+yarn add tslint-primitive-interpolation --dev
+```
