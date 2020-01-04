@@ -5,7 +5,6 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "patch": "yarn version --pre --patch",
-    "deploy": "yarn patch && yarn publish --non-interactive",
     "testlint": "yarn build && tslint -p tsconfig.json -c tslint.test.json",
     "master": "yarn patch && git push origin master",
     "debug": "node --inspect=5858 -r ts-node/register node_modules/.bin/jest",
