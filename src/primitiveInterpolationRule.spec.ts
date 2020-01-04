@@ -1,9 +1,9 @@
 import { LintResult } from 'tslint';
-import { helper } from './lintRunner';
+import { helper } from './spec/helpers/lintRunner';
 const rule = 'primitive-interpolation';
 
 const testFile = (index: number, fileName: string, whitelists: string[] = []): LintResult => {
-    const filepath = `${__dirname}/primitiveInterpolationCodes/sample/${index}.${fileName}.ts`;
+    const filepath = `${__dirname}/spec/sample/${index}.${fileName}.ts`;
     return helper({ filepath, rule, whitelists });
 };
 
