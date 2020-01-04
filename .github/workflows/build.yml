@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - staging
-      - buildtest
 
 jobs:
   build:
@@ -34,9 +33,7 @@ jobs:
       run: |
         git config user.email "build-bot@ramadoka.com"
         git config user.name "ramadoka-build-bot"
-        yarn version --pre --patch
         yarn publish --non-interactive
-        git push --tags
       env:
         CI: true
         NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
