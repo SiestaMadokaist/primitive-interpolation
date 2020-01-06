@@ -53,6 +53,18 @@ for example, if you're okay with doing string interpolation of a Date variable, 
 ### Installation:
 ```shell
 npm install tslint-primitive-interpolation --dev
-# or if you're using yarn
+```
+Or if you're using yarn
+```shell
 yarn add tslint-primitive-interpolation --dev
+```
+
+And then add the rule-directory to your tslint.json
+```json
+{
+  "rules": { /** your linting rules */ },
+  "rulesDirectory": [
+    "node_modules/tslint-primitive-interpolation/dist"
+  ]
+}
 ```
